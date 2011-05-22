@@ -4,7 +4,7 @@ require "engineyard-dnsimple/version"
 
 Gem::Specification.new do |s|
   s.name        = "engineyard-dnsimple"
-  s.version     = Engineyard::Dnsimple::VERSION
+  s.version     = EngineYard::DNSimple::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Dr Nic Williams"]
   s.email       = ["drnicwilliams@gmail.com"]
