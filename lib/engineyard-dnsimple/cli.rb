@@ -24,9 +24,10 @@ module EngineYard
       method_option :environment, :aliases => ["-e"], :desc => "Environment in which to deploy this application", :type => :string
       method_option :account, :aliases     => ["-c"], :desc => "Name of the account you want to deploy in"
       def assign(domain)
-        say "Fetching environment information..."; $stdout.flush
+        say "Fetching AppCloud environment information..."; $stdout.flush
         
         environment = fetch_environment(options[:environment], options[:account])
+        account_name, env_name = environment.account.name, environment.name
         unless environment.instances.first
           error "Environment #{account_name}/#{env_name} has no booted instances."
         end
@@ -36,7 +37,6 @@ module EngineYard
           error "Cannot determine public IP from current hostname #{public_hostname}"
         end
         
-        account_name, env_name = environment.account.name, environment.name
         public_ip = "#{$1}.#{$2}.#{$3}.#{$4}"
 
         say "Found environment #{env_name} on account #{account_name} with IP #{public_ip}"        
