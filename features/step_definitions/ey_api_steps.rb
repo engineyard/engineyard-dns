@@ -5,11 +5,11 @@ Given /^I have setup my engineyard email\/password for API access$/ do
   File.open(ENV['EYRC'], "w"){|f| YAML.dump(token, f) }
 end
 
-When /^I have "two accounts, two apps, two environments, ambiguous"$/ do
+When /^I have "two accounts, two apps, two environments, ambiguous" in AppCloud$/ do
   api_scenario "two accounts, two apps, two environments, ambiguous"
 end
 
 # has a known public IP in its hostname ec2-174-129-7-113.compute-1.amazonaws.com
-When /^I have "two apps"$/ do
+When /^I have "two apps" in AppCloud$/ do
   api_scenario "two apps"
 end
