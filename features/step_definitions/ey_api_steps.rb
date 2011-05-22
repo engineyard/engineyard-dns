@@ -8,3 +8,8 @@ end
 When /^I have "two accounts, two apps, two environments, ambiguous"$/ do
   api_scenario "two accounts, two apps, two environments, ambiguous"
 end
+
+# has a known public IP in its hostname ec2-174-129-7-113.compute-1.amazonaws.com
+When /^I have "two apps"$/ do
+  api_scenario "two apps"
+end
