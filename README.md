@@ -20,6 +20,9 @@ like the `ey` CLI itself:
 
     $ ey-dnsimple assign myapp.com -e myapp_production
 
+If .myapp.com or www.myapp.com already exist you will be prompted to override them.
+You can force the override with the `--override` or `-o` flag.
+
 ## Setup
 
     $ gem install engineyard-dnsimple
