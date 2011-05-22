@@ -42,6 +42,13 @@ Test you have DNSimple working:
     Found 1 domains:
     	myapp.com
 
+## Development
+
+Currently the test suite is a simple cucumber feature which shouldn't be run.
+
+I have asked question https://github.com/aetrion/dnsimple-ruby/issues/4 about how to write
+3rd party tests against DNSimple.
+
 ## License
 
 Copyright (c) 2010 Engine Yard, Inc
