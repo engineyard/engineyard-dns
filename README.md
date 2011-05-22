@@ -1,5 +1,8 @@
 # Simple DNS for Engine Yard AppCloud environments
 
+Currently creates A records for a domain (.myapp.com and www.myapp.com) to
+point to the public IP of an AppCloud environment.
+
 ## Usage
 
 Setup `ey` and `dnsimple` gems and credentials (see below).

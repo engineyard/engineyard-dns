@@ -40,12 +40,14 @@ module EngineYard
         public_ip = "#{$1}.#{$2}.#{$3}.#{$4}"
 
         say "Found environment #{env_name} on account #{account_name} with IP #{public_ip}"        
-        say "Assigning "; say "#{domain} ", :green; say "--> "; say "#{public_ip} ", :green; say "(#{account_name}/#{env_name})"
         $stdout.flush
-        
+
         ::DNSimple::Client.load_credentials_if_necessary
-        
-        ::DNSimple::Commands::CreateRecord.new.execute([domain, "", "A", public_ip, ""]) # A record for .mydomain.com
+
+        say "Assigning "; say "#{domain} ", :green; say "--> "; say "#{public_ip} ", :green; say "(#{account_name}/#{env_name})"
+        ::DNSimple::Commands::CreateRecord.new.execute([domain, "", "A", public_ip, "60"]) # A record for .mydomain.com
+        say "Assigning "; say "www.#{domain} ", :green; say "--> "; say "#{public_ip} ", :green; say "(#{account_name}/#{env_name})"
+        ::DNSimple::Commands::CreateRecord.new.execute([domain, "www", "A", public_ip, "60"]) # A record for www.mydomain.com
 
         say "Complete!", :green
         

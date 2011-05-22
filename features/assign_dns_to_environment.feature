@@ -13,11 +13,15 @@ Feature: Assign DNS to environment IP address
     When I run local executable "ey-dnsimple" with arguments "assign myapp.com --account main --environment giblets"
     Then I should see exactly
       """
+      Fetching environment information...
       Assigning myapp.com --> 174.129.7.113 (main/giblets)
+      Created A record for banjowilliams.com (id:40434)
+      Assigning www.myapp.com --> 174.129.7.113 (main/giblets)
+      Created A record for banjowilliams.com (id:40435)
       Complete!
-      
-      Found 1 records for myapp.com
-      	.myapp.com (A)-> 174.129.7.113 (ttl:0, id:40424)
+      Found 2 records for myapp.com
+      	.myapp.com (A)-> 174.129.7.113 (ttl:0, id:40434)
+      	www.myapp.com (A)-> 174.129.7.113 (ttl:0, id:40435)
       """
   
   
