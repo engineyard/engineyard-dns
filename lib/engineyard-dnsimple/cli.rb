@@ -3,6 +3,8 @@ require "engineyard/thor"
 require "engineyard/cli"
 require "engineyard/cli/ui"
 require "engineyard/error"
+require "dnsimple"
+require "dnsimple/cli"
 
 module EngineYard
   module DNSimple
@@ -17,11 +19,11 @@ module EngineYard
       end
 
 
-      desc "assign TLD", "Assign TLD (domain) to your AppCloud environment"
+      desc "assign domain", "Assign domain (domain) to your AppCloud environment"
       method_option :verbose, :aliases     => ["-V"], :desc => "Display more output"
       method_option :environment, :aliases => ["-e"], :desc => "Environment in which to deploy this application", :type => :string
       method_option :account, :aliases     => ["-c"], :desc => "Name of the account you want to deploy in"
-      def assign(tld)
+      def assign(domain)
         environment = fetch_environment(options[:environment], options[:account])
         unless environment.instances.first
           error "Environment #{account_name}/#{env_name} has no booted instances."
@@ -34,10 +36,17 @@ module EngineYard
         
         account_name, env_name = environment.account.name, environment.name
         
+        ::DNSimple::Client.load_credentials_if_necessary
+        
         public_ip = "#{$1}.#{$2}.#{$3}.#{$4}"
-        say "Assigning #{tld} --> #{public_ip} (#{account_name}/#{env_name})"
+        say "Assigning #{domain} --> #{public_ip} (#{account_name}/#{env_name})"
+
+        ::DNSimple::Commands::CreateRecord.new.execute([domain, "", "A", public_ip, ""]) # A record for .mydomain.com
+
         say "Testing...", :yellow
         say "Complete!", :green
+        
+        ::DNSimple::Commands::ListRecords.new.execute([domain])
       end
       
       desc "version", "show version information"

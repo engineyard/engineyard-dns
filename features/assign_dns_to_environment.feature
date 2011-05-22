@@ -17,6 +17,8 @@ Feature: Assign DNS to environment IP address
       Testing...
       Complete!
       
+      Found 1 records for myapp.com
+      	.myapp.com (A)-> 174.129.7.113 (ttl:0, id:40424)
       """
   
   
