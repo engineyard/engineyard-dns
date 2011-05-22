@@ -1,6 +1,46 @@
 # Simple DNS for Engine Yard AppCloud environments
 
-DOCUMENTATION COMING. THEN TESTS. THEN CODE. THEN HAPPINESS.
+## Usage
+
+Setup `ey` and `dnsimple` gems and credentials (see below).
+
+    $ ey-dnsimple assign myapp.com
+    Assigning myapp.com --> 1.2.3.4 (drnic/myapp_production)
+    Created A record for myapp.com (id:12345)
+    Complete!
+    Found 1 records for myapp.com
+    	.myapp.com (A)-> 1.2.3.4 (ttl:, id:12345)
+
+If an AppCloud environment cannot be automatically detected, explicitly pass -e or -a flags
+like the `ey` CLI itself:
+
+    $ ey-dnsimple assign myapp.com -e myapp_production
+
+## Setup
+
+    $ gem install engineyard-dnsimple
+
+This will install the `engineyard` and `dnsimple-ruby` gems as well.
+
+To setup credentials for AppCloud, run the following command for the first time and
+you will be prompted for credentials:
+
+    $ ey environments --all
+
+To setup credentials for DNSimple, create a file `~/.dnsimple` to look like:
+
+    username: DNSIMPLE_USERNAME
+    password: DNSIMPLE_PASSWORD
+
+On Unix, make this file readable to you only:
+
+    $ chmod 600 ~/.dnsimple
+
+Test you have DNSimple working:
+
+    $ dnsimple list
+    Found 1 domains:
+    	myapp.com
 
 ## License
 
