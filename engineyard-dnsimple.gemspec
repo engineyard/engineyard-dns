@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Dr Nic Williams"]
   s.email       = ["drnicwilliams@gmail.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/engineyard/engineyard-dnsimple#readme"
   s.summary     = %q{Configure your Engine Yard AppCloud environment and your DNSimple domain.}
   s.description = %q{Easily configure your DNS with Engine Yard AppCloud via DNSimple.}
 
