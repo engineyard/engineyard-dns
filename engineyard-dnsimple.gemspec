@@ -18,4 +18,18 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
+
+  s.add_dependency("thor")
+  s.add_dependency("engineyard")
+  s.add_dependency("dnsimple-ruby")
+
+  s.add_development_dependency("rake", ["~> 0.9.0"])
+  s.add_development_dependency("cucumber", ["~> 0.10"])
+  s.add_development_dependency("rspec", ["~> 2.5"])
+  s.add_development_dependency("json", ["~>1.4.0"])
+  s.add_development_dependency("awesome_print")
+  s.add_development_dependency("realweb", '~>0.1.6')
+  s.add_development_dependency("open4")
+  s.add_development_dependency("sinatra")
+  s.add_development_dependency("fakeweb", "~>1.3.0")
 end
