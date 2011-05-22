@@ -1,9 +1,9 @@
-Given /^I expect to create DNSimple::Record with attributes:$/ do |table|
-  record = table.rows_hash
-  p [record.delete("domain"), record.delete("name") || "", 
-      record.delete("record_type") || "A", record.delete("content"), record]
-  # DNSimple::Record.create(record.delete("domain"), record.delete("name") || "", 
-  #     record.delete("record_type") || "A", record.delete("content"), record)
+Given /^I have setup my dnsimple credentials$/ do
+  setup_dnsimple_credentials
+end
+
+Given /^I have DNSimple domain "([^"]*)"$/ do |domain|
+  create_dnsimple_domain domain
 end
 
 

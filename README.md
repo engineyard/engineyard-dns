@@ -9,10 +9,8 @@ Setup `ey` and `dnsimple` gems and credentials (see below).
 
     $ ey-dnsimple assign myapp.com
     Assigning myapp.com --> 1.2.3.4 (drnic/myapp_production)
-    Created A record for myapp.com (id:12345)
     Assigning www.myapp.com --> 1.2.3.4 (drnic/myapp_production)
-    Created A record for myapp.com (id:12346)
-    Complete!
+
     Found 2 records for myapp.com
     	.myapp.com (A)-> 1.2.3.4 (ttl:, id:12345)
     	www.myapp.com (A)-> 1.2.3.4 (ttl:, id:12346)
