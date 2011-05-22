@@ -23,6 +23,7 @@ module EngineYard
       method_option :verbose, :aliases     => ["-V"], :desc => "Display more output"
       method_option :environment, :aliases => ["-e"], :desc => "Environment in which to deploy this application", :type => :string
       method_option :account, :aliases     => ["-c"], :desc => "Name of the account you want to deploy in"
+      method_option :override, :aliases    => ["-o"], :type => :boolean, :desc => "Override DNSimple records if they already exist"
       def assign(domain)
         say "Fetching AppCloud environment information..."; $stdout.flush
         
@@ -39,15 +40,12 @@ module EngineYard
         
         public_ip = "#{$1}.#{$2}.#{$3}.#{$4}"
 
-        say "Found environment #{env_name} on account #{account_name} with IP #{public_ip}"        
+        say "Found AppCloud environment #{env_name} on account #{account_name} with IP #{public_ip}"        
         $stdout.flush
 
         ::DNSimple::Client.load_credentials_if_necessary
-
-        say "Assigning "; say "#{domain} ", :green; say "--> "; say "#{public_ip} ", :green; say "(#{account_name}/#{env_name})"
-        ::DNSimple::Commands::CreateRecord.new.execute([domain, "", "A", public_ip, "60"]) # A record for .mydomain.com
-        say "Assigning "; say "www.#{domain} ", :green; say "--> "; say "#{public_ip} ", :green; say "(#{account_name}/#{env_name})"
-        ::DNSimple::Commands::CreateRecord.new.execute([domain, "www", "A", public_ip, "60"]) # A record for www.mydomain.com
+        assign_dns(account_name, env_name, domain, public_ip, "", options[:override])
+        assign_dns(account_name, env_name, domain, public_ip, "www", options[:override])
 
         say "Complete!", :green
         
@@ -92,6 +90,34 @@ module EngineYard
             puts e.message
             sleep 1; print '.'; $stdout.flush
           end
+        end
+      end
+      
+      def assign_dns(account_name, env_name, domain, public_ip, name = "", override = false)
+        records = ::DNSimple::Record.all(domain)
+        if record = records.find { |record| record.name == name && record.domain.name == domain }
+          if override || ask_override_dns?(domain, name)
+            ::DNSimple::Commands::DeleteRecord.new.execute([domain, record.id]) # A record for .mydomain.com
+          else
+            error "Cannot replace existing #{domain_name domain, name} DNS"
+          end
+        end
+        say "Assigning "; say "#{domain_name domain, name} ", :green; say "--> "; say "#{public_ip} ", :green; say "(#{account_name}/#{env_name})"
+        $stdout.flush
+        
+        ::DNSimple::Commands::CreateRecord.new.execute([domain, name, "A", public_ip, "60"]) # A record for .mydomain.com
+      end
+      
+      def ask_override_dns?(domain, name)
+        ui = EY::CLI::UI::Prompter.backend
+        ui.agree("Replace #{domain_name domain, name}: ", "y")
+      end
+      
+      def domain_name(domain, name = nil)
+        if name && name.length > 0
+          "#{name}.#{domain}"
+        else
+          domain
         end
       end
     end
