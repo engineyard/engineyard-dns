@@ -1,5 +1,7 @@
 # Simple DNS for Engine Yard AppCloud environments
 
+[![Build Status](http://travis-ci.org/drnic/engineyard-dnsimple.png)](http://travis-ci.org/drnic/engineyard-dnsimple)
+
 Currently creates A records for a domain (.myapp.com and www.myapp.com) to
 point to the public IP of an AppCloud environment.
 
