@@ -24,6 +24,8 @@ module EngineYard
       method_option :environment, :aliases => ["-e"], :desc => "Environment in which to deploy this application", :type => :string
       method_option :account, :aliases     => ["-c"], :desc => "Name of the account you want to deploy in"
       def assign(domain)
+        say "Fetching environment information..."; $stdout.flush
+        
         environment = fetch_environment(options[:environment], options[:account])
         unless environment.instances.first
           error "Environment #{account_name}/#{env_name} has no booted instances."
@@ -35,12 +37,14 @@ module EngineYard
         end
         
         account_name, env_name = environment.account.name, environment.name
+        public_ip = "#{$1}.#{$2}.#{$3}.#{$4}"
+
+        say "Found environment #{env_name} on account #{account_name} with IP #{public_ip}"        
+        say "Assigning "; say "#{domain} ", :green; say "--> "; say "#{public_ip} ", :green; say "(#{account_name}/#{env_name})"
+        $stdout.flush
         
         ::DNSimple::Client.load_credentials_if_necessary
         
-        public_ip = "#{$1}.#{$2}.#{$3}.#{$4}"
-        say "Assigning #{domain} --> #{public_ip} (#{account_name}/#{env_name})"
-
         ::DNSimple::Commands::CreateRecord.new.execute([domain, "", "A", public_ip, ""]) # A record for .mydomain.com
 
         say "Complete!", :green
