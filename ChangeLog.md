@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v0.2.0 - 2011/5/22
+
+* If [domain, name] pair already exists then prompt for override
+
 ## v0.1.2 - 2011/5/22
 
 * Cucumber scenario is now working against http://test.dnsimple.com
