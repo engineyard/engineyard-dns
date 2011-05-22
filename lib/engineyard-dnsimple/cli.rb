@@ -43,7 +43,6 @@ module EngineYard
 
         ::DNSimple::Commands::CreateRecord.new.execute([domain, "", "A", public_ip, ""]) # A record for .mydomain.com
 
-        say "Testing...", :yellow
         say "Complete!", :green
         
         ::DNSimple::Commands::ListRecords.new.execute([domain])

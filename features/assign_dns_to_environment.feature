@@ -14,7 +14,6 @@ Feature: Assign DNS to environment IP address
     Then I should see exactly
       """
       Assigning myapp.com --> 174.129.7.113 (main/giblets)
-      Testing...
       Complete!
       
       Found 1 records for myapp.com
