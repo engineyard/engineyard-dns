@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v0.3.0 - 2011/5/22
+
+* ey-dnsimple assign DOMAIN NAME - can pass a subdomain name (only that record is created)
+
 ## v0.2.0 - 2011/5/22
 
 * If [domain, name] pair already exists then prompt for override
