@@ -1,10 +1,14 @@
 # Simple DNS for Engine Yard AppCloud environments
 
-<img src="https://img.skitch.com/20110523-x5mhutfr8r79parhuq7r44sqma.png">
-
-
 Currently creates A records for a domain (.myapp.com and www.myapp.com) to
 point to the public IP of an AppCloud environment.
+
+<img src="https://img.skitch.com/20110523-x5mhutfr8r79parhuq7r44sqma.png">
+
+NOTE: This image is an artist's impression. Probably an artist who doesn't know how
+HTTP requests and DNS work. HTTP reqests don't go through DNSimple (or any DNS nameserver).
+The host in the URL is translated from myapp.com into an IP address (e.g. 1.2.3.4) by DNS. 
+The HTTP request then goes to the IP address. But the picture looks nice.
 
 ## Usage
 
