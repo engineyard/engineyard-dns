@@ -1,10 +1,7 @@
 # Simple DNS for Engine Yard AppCloud environments
 
-<img src="http://travis-ci.org/drnic/engineyard-dnsimple.png" style="float: left;">
-
 <img src="https://img.skitch.com/20110523-x5mhutfr8r79parhuq7r44sqma.png">
 
-[![Build Status](http://travis-ci.org/drnic/engineyard-dnsimple.png)](http://travis-ci.org/drnic/engineyard-dnsimple)
 
 Currently creates A records for a domain (.myapp.com and www.myapp.com) to
 point to the public IP of an AppCloud environment.
@@ -56,6 +53,8 @@ Test you have DNSimple working:
     	myapp.com
 
 ## Development
+
+[![Build Status](http://travis-ci.org/drnic/engineyard-dnsimple.png)](http://travis-ci.org/drnic/engineyard-dnsimple)
 
 Currently the test suite is a simple cucumber feature which shouldn't be run.
 
