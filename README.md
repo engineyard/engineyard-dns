@@ -54,7 +54,7 @@ Test you have DNSimple working:
 
 ## Development
 
-[![Build Status](http://travis-ci.org/drnic/engineyard-dnsimple.png)](http://travis-ci.org/drnic/engineyard-dnsimple)
+[![Build Status](http://travis-ci.org/engineyard/engineyard-dnsimple.png)](http://travis-ci.org/engineyard/engineyard-dnsimple)
 
 The test suite is purely cucumber scenarios. No rspec tests are being used. There are credentials for http://test.dnsimple.com built into the test suite. You should not have to do anything to run the tests except:
 
