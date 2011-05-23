@@ -31,9 +31,9 @@ Feature: Assign DNS to environment IP address
       Fetching AppCloud environment information...
       Found AppCloud environment giblets on account main with IP 174.129.7.113
       Deleted \d+ from myapp.com
-      Deleted \d+ from myapp.com
       Assigning myapp.com --> 174.129.7.113 (main/giblets)
       Created A record for myapp.com (id:\d+)
+      Deleted \d+ from myapp.com
       Assigning www.myapp.com --> 174.129.7.113 (main/giblets)
       Created A record for myapp.com (id:\d+)
       Complete!
