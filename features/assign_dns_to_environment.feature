@@ -42,5 +42,18 @@ Feature: Assign DNS to environment IP address
       	www.myapp.com (A)-> 174.129.7.113 (ttl:60, id:\d+)
       """
 
+  Scenario: Assign subdomain A Record to an environment
+    When I run local executable "ey-dnsimple" with arguments "assign myapp.com staging --account main --environment giblets"
+    Then I should see matching
+      """
+      Fetching AppCloud environment information...
+      Found AppCloud environment giblets on account main with IP 174.129.7.113
+      Assigning staging.myapp.com --> 174.129.7.113 (main/giblets)
+      Created A record for myapp.com (id:\d+)
+      Complete!
+      Found 1 records for myapp.com
+      	staging.myapp.com (A)-> 174.129.7.113 (ttl:60, id:\d+)
+      """
+
   
   

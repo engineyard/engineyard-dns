@@ -19,12 +19,12 @@ module EngineYard
       end
 
 
-      desc "assign domain", "Assign domain (domain) to your AppCloud environment"
+      desc "assign DOMAIN [NAME]", "Assign DNS domain/tld (or name.tld) to your AppCloud environment"
       method_option :verbose, :aliases     => ["-V"], :desc => "Display more output"
       method_option :environment, :aliases => ["-e"], :desc => "Environment in which to deploy this application", :type => :string
       method_option :account, :aliases     => ["-c"], :desc => "Name of the account you want to deploy in"
       method_option :override, :aliases    => ["-o"], :type => :boolean, :desc => "Override DNSimple records if they already exist"
-      def assign(domain)
+      def assign(domain, name = "")
         say "Fetching AppCloud environment information..."; $stdout.flush
         
         environment = fetch_environment(options[:environment], options[:account])
@@ -44,8 +44,8 @@ module EngineYard
         $stdout.flush
 
         ::DNSimple::Client.load_credentials_if_necessary
-        assign_dns(account_name, env_name, domain, public_ip, "", options[:override])
-        assign_dns(account_name, env_name, domain, public_ip, "www", options[:override])
+        assign_dns(account_name, env_name, domain, public_ip, name, options[:override])
+        assign_dns(account_name, env_name, domain, public_ip, "www", options[:override]) if name == ""
 
         say "Complete!", :green
         

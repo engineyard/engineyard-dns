@@ -17,7 +17,8 @@ module DNSimpleHelpers
   def create_dnsimple_domain(domain)
     begin
       ::DNSimple::Commands::DeleteDomain.new.execute([domain])
-    rescue
+    rescue => e
+      $stderr.puts e.message
     end
     ::DNSimple::Commands::CreateDomain.new.execute([domain])
   end
