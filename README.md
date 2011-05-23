@@ -1,4 +1,8 @@
+<img src="http://travis-ci.org/drnic/engineyard-dnsimple.png" style="float: right;">
+
 # Simple DNS for Engine Yard AppCloud environments
+
+<img src="https://img.skitch.com/20110523-rqjn3md5741x9nbaue6hm99u8p.png">
 
 [![Build Status](http://travis-ci.org/drnic/engineyard-dnsimple.png)](http://travis-ci.org/drnic/engineyard-dnsimple)
 
