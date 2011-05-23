@@ -56,10 +56,12 @@ Test you have DNSimple working:
 
 [![Build Status](http://travis-ci.org/drnic/engineyard-dnsimple.png)](http://travis-ci.org/drnic/engineyard-dnsimple)
 
-Currently the test suite is a simple cucumber feature which shouldn't be run.
+The test suite is purely cucumber scenarios. No rspec tests are being used. There are credentials for http://test.dnsimple.com built into the test suite. You should not have to do anything to run the tests except:
 
-I have asked question https://github.com/aetrion/dnsimple-ruby/issues/4 about how to write
-3rd party tests against DNSimple.
+    git clone git://github.com/engineyard/engineyard-dnsimple.git
+    cd engineyard-dnsimple
+    bundle
+    bundle exec rake
 
 ## License
 
