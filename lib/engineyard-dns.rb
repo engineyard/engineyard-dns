@@ -1,5 +1,5 @@
 module EngineYard
-  module DNSimple
+  module DNS
     # Your code goes here...
   end
 end

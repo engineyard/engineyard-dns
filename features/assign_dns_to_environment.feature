@@ -1,4 +1,4 @@
-Feature: Assign DNS to environment IP address
+Feature: Assign DNS to environment IP address via DNSimple
   I want to assign DNS record to an AppCloud environment IP address
 
   Background:
@@ -8,7 +8,7 @@ Feature: Assign DNS to environment IP address
     And I have DNSimple domain "myapp.com"
     
   Scenario: Assign new DNS A Record to an environment
-    When I run local executable "ey-dnsimple" with arguments "assign myapp.com --account main --environment giblets"
+    When I run local executable "ey-dns" with arguments "assign myapp.com --account main --environment giblets"
     Then I should see matching
       """
       Fetching AppCloud environment information...
@@ -24,8 +24,8 @@ Feature: Assign DNS to environment IP address
       """
   
   Scenario: Resssign DNS A Record to an environment
-    When I run local executable "ey-dnsimple" with arguments "assign myapp.com --account main --environment giblets"
-    And I run local executable "ey-dnsimple" with arguments "assign myapp.com --account main --environment giblets --override"
+    When I run local executable "ey-dns" with arguments "assign myapp.com --account main --environment giblets"
+    And I run local executable "ey-dns" with arguments "assign myapp.com --account main --environment giblets --override"
     Then I should see matching
       """
       Fetching AppCloud environment information...
@@ -43,7 +43,7 @@ Feature: Assign DNS to environment IP address
       """
 
   Scenario: Assign subdomain A Record to an environment
-    When I run local executable "ey-dnsimple" with arguments "assign myapp.com staging --account main --environment giblets"
+    When I run local executable "ey-dns" with arguments "assign myapp.com staging --account main --environment giblets"
     Then I should see matching
       """
       Fetching AppCloud environment information...

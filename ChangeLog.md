@@ -2,7 +2,7 @@
 
 ## v0.3.0 - 2011/5/22
 
-* ey-dnsimple assign DOMAIN NAME - can pass a subdomain name (only that record is created)
+* ey-dns assign DOMAIN NAME - can pass a subdomain name (only that record is created)
 
 ## v0.2.0 - 2011/5/22
 
@@ -20,4 +20,4 @@
 ## v0.1.0 - 2011/5/22
 
 * Initial release
-* Basic implementation of `ey-dnsimple assign DOMAIN`
+* Basic implementation of `ey-dns assign DOMAIN`

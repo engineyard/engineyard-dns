@@ -1,18 +1,18 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "engineyard-dnsimple/version"
+require "engineyard-dns/version"
 
 Gem::Specification.new do |s|
-  s.name        = "engineyard-dnsimple"
-  s.version     = EngineYard::DNSimple::VERSION
+  s.name        = "engineyard-dns"
+  s.version     = EngineYard::DNS::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Dr Nic Williams"]
   s.email       = ["drnicwilliams@gmail.com"]
-  s.homepage    = "https://github.com/engineyard/engineyard-dnsimple#readme"
+  s.homepage    = "https://github.com/engineyard/engineyard-dns#readme"
   s.summary     = %q{Configure your Engine Yard AppCloud environment and your DNSimple domain.}
   s.description = %q{Easily configure your DNS with Engine Yard AppCloud via DNSimple.}
 
-  s.rubyforge_project = "engineyard-dnsimple"
+  s.rubyforge_project = "engineyard-dns"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency("thor")
   s.add_dependency("engineyard")
   s.add_dependency("dnsimple-ruby")
+  s.add_dependency("fog")
 
   s.add_development_dependency("rake", ["~> 0.9.0"])
   s.add_development_dependency("cucumber", ["~> 0.10"])

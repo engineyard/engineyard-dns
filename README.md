@@ -14,7 +14,7 @@ The HTTP request then goes to the IP address. But the picture looks nice.
 
 Setup `ey` and `dnsimple` gems and credentials (see below).
 
-    $ ey-dnsimple assign myapp.com
+    $ ey-dns assign myapp.com
     Assigning myapp.com --> 1.2.3.4 (drnic/myapp_production)
     Assigning www.myapp.com --> 1.2.3.4 (drnic/myapp_production)
 
@@ -25,14 +25,14 @@ Setup `ey` and `dnsimple` gems and credentials (see below).
 If an AppCloud environment cannot be automatically detected, explicitly pass -e or -a flags
 like the `ey` CLI itself:
 
-    $ ey-dnsimple assign myapp.com -e myapp_production
+    $ ey-dns assign myapp.com -e myapp_production
 
 If .myapp.com or www.myapp.com already exist you will be prompted to override them.
 You can force the override with the `--override` or `-o` flag.
 
 ## Setup
 
-    $ gem install engineyard-dnsimple
+    $ gem install engineyard-dns
 
 This will install the `engineyard` and `dnsimple-ruby` gems as well.
 
@@ -58,12 +58,12 @@ Test you have DNSimple working:
 
 ## Development
 
-[![Build Status](http://travis-ci.org/engineyard/engineyard-dnsimple.png)](http://travis-ci.org/engineyard/engineyard-dnsimple)
+[![Build Status](http://travis-ci.org/engineyard/engineyard-dns.png)](http://travis-ci.org/engineyard/engineyard-dns)
 
 The test suite is purely cucumber scenarios. No rspec tests are being used. There are credentials for http://test.dnsimple.com built into the test suite. You should not have to do anything to run the tests except:
 
-    git clone git://github.com/engineyard/engineyard-dnsimple.git
-    cd engineyard-dnsimple
+    git clone git://github.com/engineyard/engineyard-dns.git
+    cd engineyard-dns
     bundle
     bundle exec rake
 

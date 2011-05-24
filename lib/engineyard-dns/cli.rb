@@ -7,7 +7,7 @@ require "dnsimple"
 require "dnsimple/cli"
 
 module EngineYard
-  module DNSimple
+  module DNS
     class CLI < Thor
       include EY::UtilityMethods
       # include Thor::Actions
