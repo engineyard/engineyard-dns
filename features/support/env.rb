@@ -1,8 +1,6 @@
 $:.unshift(File.expand_path(File.dirname(__FILE__) + '/../../lib'))
 require 'bundler/setup'
 require 'engineyard-dns'
-require 'dnsimple'
-require 'dnsimple/cli'
 require 'fog'
 
 path = ENV['PATH']
