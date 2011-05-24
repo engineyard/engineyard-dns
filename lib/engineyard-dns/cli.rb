@@ -63,8 +63,8 @@ module EngineYard
       
       desc "version", "show version information"
       def version
-        require 'engineyard-jenkins/version'
-        shell.say Engineyard::Jenkins::VERSION
+        require 'engineyard-dns/version'
+        shell.say Engineyard::DNS::VERSION
       end
 
       map "-v" => :version, "--version" => :version, "-h" => :help, "--help" => :help
