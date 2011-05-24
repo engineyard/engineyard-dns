@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v0.4.0 - 2011/5/23
+
+* supporting many DNS providers via fog
+* automatic discovery of which DNS provider hosts your domain
+* see README for setting up fog credentials
+
 ## v0.3.0 - 2011/5/22
 
 * ey-dns assign DOMAIN NAME - can pass a subdomain name (only that record is created)
