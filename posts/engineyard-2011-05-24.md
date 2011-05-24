@@ -18,16 +18,39 @@ It's really quite easy to use:
     Assigning myapp.com --> 1.2.3.4 (drnic/myapp_production)
     Assigning www.myapp.com --> 1.2.3.4 (drnic/myapp_production)
 
-    Found 2 records for myapp.com
-    	.myapp.com (A)-> 1.2.3.4 (ttl:, id:12345)
-    	www.myapp.com (A)-> 1.2.3.4 (ttl:, id:12346)
-
 If you have previously assigned the domain records to another host, it will prompt you to change them. 
 
 If there is any confusion about which AppCloud environment is hosting your application, it will show you your options and then you can use the `--environment` and `--account` options to be more specific:
 
     $ ey-dns apply myapp.com --environment myapp_production
     $ ey-dns apply myapp.com staging --environment myapp_staging
+
+## Available domains/zones
+
+This tool will automatically determine which DNS provider is managing the domain/zone that you are wiring up to your AppCloud environment.
+
+## DNS credentials
+
+To access your DNS provider, you need to add your account/API credentials into `~/.fog` file. I currently have DNS access to DNSimple, Slicehost and AWS Route 53. My `~/.fog` file looks a little bit like:
+
+    :default:
+      :aws_access_key_id:     0NJRCXXXXXXXXXXXX
+      :aws_secret_access_key: QGtnbXXXXXXXXXXXX/qQ4lXXXXXXXXXXXXXX
+      :dnsimple_email:        MYEMAIL
+      :dnsimple_password:     XXXXXXXXXXX
+      :slicehost_password:    f9a265f66XXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+### AWS credentials
+
+Recently AWS began offering an API-driven DNS server "Route 53".
+
+### Slicehost credentials
+
+Until I switched to DNSimple, I used Slicehost for its CLI-driven DNS. I still have many domains managed by Slicehost. To enable API access to your Slicehost account in `fog` (and hence `ey-dns`) go to [https://manage.slicehost.com/api](https://manage.slicehost.com/api), enabled API access and copy your API token into the `slicehost_password` field of `~/.fog` above.
+
+<img src="https://img.skitch.com/20110524-jbmkcwumrdgw2pgrt7kpe1mbga.preview.png">
+
+## Summary
 
 Hopefully this tool makes it much easier to setup or change DNS for your AppCloud environments. Let us know in the comments or in the project's [Issues](https://github.com/engineyard/engineyard-dns/issues) if you love it, find bugs or have feature requests.
 
