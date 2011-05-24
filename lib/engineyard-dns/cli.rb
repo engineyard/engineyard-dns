@@ -18,7 +18,6 @@ module EngineYard
         super
       end
 
-
       desc "assign DOMAIN [NAME]", "Assign DNS domain/tld (or name.tld) to your AppCloud environment"
       method_option :verbose, :aliases     => ["-V"], :desc => "Display more output"
       method_option :environment, :aliases => ["-e"], :desc => "Environment in which to deploy this application", :type => :string
@@ -59,6 +58,24 @@ module EngineYard
         say "Complete!", :green
         
         # ::DNSimple::Commands::ListRecords.new.execute([domain])
+      end
+      
+      desc "domains", "List available domains/zones from your DNS providers"
+      def domains
+        dns_provider_names.each do |provider_name|
+          dns_provider = ::Fog::DNS.new({:provider => provider_name})
+          domains      = dns_provider.zones
+          
+          if domains.size == 0
+            say "#{provider_name}: ", :yellow; say "none"
+          else
+            say "#{provider_name}:", :green
+            domains.each do |domain|
+              records = domain.records.all
+              say "  #{domain.domain} - #{records.size} records"
+            end
+          end
+        end
       end
       
       desc "version", "show version information"
