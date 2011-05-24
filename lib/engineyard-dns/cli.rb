@@ -4,6 +4,7 @@ require "engineyard/cli"
 require "engineyard/cli/ui"
 require "engineyard/error"
 require "fog"
+require "fog/bin"
 
 module EngineYard
   module DNS
@@ -105,11 +106,13 @@ module EngineYard
       # and return [domain/zone, provider name]
       #
       # TODO remove hard-wiring for dnsimple; and discover which provider hosts domain/zone
+      # TODO how to get provider name (2nd result) from fog's Zone class? (no need to return 2nd arg)
       def find_domain(domain_name)
-        provider = 'DNSimple'
-        @dns_provider ||= ::Fog::DNS.new({:provider => provider})
-        if domain = @dns_provider.zones.select {|z| z.domain == domain_name}.first
-          return [domain, provider]
+        dns_provider_names.each do |provider|
+          dns_provider = ::Fog::DNS.new({:provider => provider})
+          if domain = dns_provider.zones.select {|z| z.domain == domain_name}.first
+            return [domain, provider]
+          end
         end
         [nil, nil]
       end
@@ -141,6 +144,20 @@ module EngineYard
           domain.domain
         end
       end
+      
+      # Returns the list of DNS providers that the current user has access to
+      # Includes the +fog_dns_providers+ list
+      # TODO find credentials in alternate locations (e.g. ~/.dnsimple)
+      def dns_provider_names
+        fog_dns_provider_names
+      end
+      
+      # Returns the list of DNS providers that the current user has fog credentials
+      # TODO how do I get the base list from fog?
+      def fog_dns_provider_names
+        ['AWS', 'Bluebox', 'DNSimple', 'Linode', 'Slicehost', 'Zerigo'] & Fog.providers
+      end
+      
     end
   end
 end
