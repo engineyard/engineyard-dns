@@ -138,6 +138,8 @@ module EngineYard
         ui.agree("Replace #{domain_name domain, name}: ", "y")
       end
       
+      # "myapp.com", "name" => "name.myapp.com"
+      # "myapp.com", ""     => "myapp.com"
       def domain_name(domain, name = nil)
         if name && name.length > 0
           "#{name}.#{domain.domain}"
