@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency("thor")
   s.add_dependency("engineyard")
-  s.add_dependency("dnsimple-ruby")
   s.add_dependency("fog")
 
   s.add_development_dependency("rake", ["~> 0.9.0"])
