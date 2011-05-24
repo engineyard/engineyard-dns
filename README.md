@@ -3,6 +3,10 @@
 Currently creates A records for a domain (.myapp.com and www.myapp.com) to
 point to the public IP of an AppCloud environment.
 
+You can use any DNS provider supported by fog, including AWS Route 53, Blue Box, DNSimple, Linode, Slicehost and Zerigo.
+
+For example:
+
 <img src="https://img.skitch.com/20110523-x5mhutfr8r79parhuq7r44sqma.png">
 
 NOTE: This image is an artist's impression. Probably an artist who doesn't know how
@@ -12,15 +16,17 @@ The HTTP request then goes to the IP address. But the picture looks nice.
 
 ## Usage
 
-Setup `ey` and `dnsimple` gems and credentials (see below).
+First, setup DNS credentials in `~/.fog` (see below).
+
+Basic usage is very simple. Assuming you have registered `myapp.com`
+with one of your DNS providers, the following will automatically work:
 
     $ ey-dns assign myapp.com
+    Found AppCloud environment giblets on account main with IP 1.2.3.4
+    Found myapp.com in DNSimple account
+
     Assigning myapp.com --> 1.2.3.4 (drnic/myapp_production)
     Assigning www.myapp.com --> 1.2.3.4 (drnic/myapp_production)
-
-    Found 2 records for myapp.com
-    	.myapp.com (A)-> 1.2.3.4 (ttl:, id:12345)
-    	www.myapp.com (A)-> 1.2.3.4 (ttl:, id:12346)
 
 If an AppCloud environment cannot be automatically detected, explicitly pass -e or -a flags
 like the `ey` CLI itself:
@@ -34,27 +40,37 @@ You can force the override with the `--override` or `-o` flag.
 
     $ gem install engineyard-dns
 
-This will install the `engineyard` and `dnsimple-ruby` gems as well.
-
 To setup credentials for AppCloud, run the following command for the first time and
 you will be prompted for credentials:
 
     $ ey environments --all
 
-To setup credentials for DNSimple, create a file `~/.dnsimple` to look like:
+To setup credentials for DNSimple, create a file `~/.fog` to look like:
 
-    username: DNSIMPLE_USERNAME
-    password: DNSIMPLE_PASSWORD
+    :default:
+      :dnsimple_email:        EMAIL
+      :dnsimple_password:     PASSWORD
+
+To setup credentials for AWS Route 53, create a file `~/.fog` to look like:
+
+    :default:
+      :aws_access_key_id:     ACCESS_KEY
+      :aws_secret_access_key: SECRET_ACCESS_KEY
+
+If you have multiple DNS providers then add as many credentials within `:default`
+as you like.
 
 On Unix, make this file readable to you only:
 
-    $ chmod 600 ~/.dnsimple
+    $ chmod 600 ~/.fog
 
-Test you have DNSimple working:
+Test you have fog working with your DNS provider:
 
-    $ dnsimple list
-    Found 1 domains:
-    	myapp.com
+    $ fog
+    >> provider = 'DNSimple' # or 'AWS' or 'Slicehost' etc
+    >> Fog::DNS.new({:provider => provider}).zones.all.map(&:domain)
+    ["drnicwilliams.com", "emrubyconf.com", ...]
+
 
 ## Development
 
