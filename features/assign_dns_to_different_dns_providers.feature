@@ -15,16 +15,13 @@ Feature: Assign DNS to environment IP address
       Found AppCloud environment giblets on account main with IP 174.129.7.113
       
       Searching for myapp.com amongst your DNS providers...
-      Found myapp.com in <provider_title> account ossgrants+dns@engineyard.com
+      Found myapp.com in \w+ account ossgrants\+dns@engineyard.com
       
       Assigning myapp.com --> 174.129.7.113 (main/giblets)
-      Created A record for myapp.com (id:\d+)
+      Created A record for myapp.com
       Assigning www.myapp.com --> 174.129.7.113 (main/giblets)
-      Created A record for myapp.com (id:\d+)
+      Created A record for www.myapp.com
       Complete!
-      Found 2 records for myapp.com
-      	.myapp.com (A)-> 174.129.7.113 (ttl:60, id:\d+)
-      	www.myapp.com (A)-> 174.129.7.113 (ttl:60, id:\d+)
       """
 
   Scenarios: all fog DNS providers
