@@ -44,14 +44,14 @@ module EngineYard
         say "Found AppCloud environment #{env_name} on account #{account_name} with IP #{public_ip}"        
         
         say ""
-        say "Searching for myapp.com amongst your DNS providers..."; $stdout.flush
+        say "Searching for #{domain_name} amongst your DNS providers..."; $stdout.flush
 
         domain, provider_name = find_domain(domain_name)
         unless domain
           error "Please register domain #{domain_name} with your DNS provider"
         end
-        say "Found myapp.com in #{provider_name} account ossgrants+dns@engineyard.com"
-        say ""
+        say "Found #{domain_name} in #{provider_name} account"
+        say ""; $stdout.flush
         
         assign_dns(domain, account_name, env_name, public_ip, name, options[:override])
         assign_dns(domain, account_name, env_name, public_ip, "www", options[:override]) if name == ""

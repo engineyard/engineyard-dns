@@ -15,7 +15,7 @@ Feature: Assign DNS to environment IP address
       Found AppCloud environment giblets on account main with IP 174.129.7.113
       
       Searching for myapp.com amongst your DNS providers...
-      Found myapp.com in DNSimple account ossgrants+dns@engineyard.com
+      Found myapp.com in DNSimple account
       
       Assigning myapp.com --> 174.129.7.113 (main/giblets)
       Created A record for myapp.com
