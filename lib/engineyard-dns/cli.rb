@@ -121,6 +121,7 @@ module EngineYard
         if record = domain.records.select {|r| r.name == name}.first
           if override || ask_override_dns?(domain, name)
             record.destroy
+            say "Deleted #{domain_name domain, name}"
           else
             error "Cannot replace existing #{domain_name domain, name} DNS"
           end
