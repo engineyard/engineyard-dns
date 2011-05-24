@@ -42,7 +42,7 @@ To access your DNS provider, you need to add your account/API credentials into `
 
 ### AWS credentials
 
-Recently AWS began offering an API-driven DNS server "Route 53".
+Recently AWS began offering an API-driven DNS server "Route 53".g
 
 ### Slicehost credentials
 
