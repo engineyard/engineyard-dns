@@ -13,9 +13,7 @@ module FogHelpers
   end
   
   def setup_domain(provider, domain)
-    dns_provider(provider).zones.select { |z| z.domain == domain }.each do |domain|
-      domain.destroy
-    end
+    dns_provider(provider).zones.select { |z| z.domain == domain }.each { |z| z.destroy }
     dns_provider(provider).zones.create(:domain => domain)
   end
   
