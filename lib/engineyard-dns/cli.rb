@@ -10,7 +10,6 @@ module EngineYard
   module DNS
     class CLI < Thor
       include EY::UtilityMethods
-      # include Thor::Actions
 
       def self.start(*)
         Thor::Base.shell = EY::CLI::UI
@@ -19,41 +18,29 @@ module EngineYard
       end
 
       desc "assign DOMAIN [NAME]", "Assign DNS domain/tld (or name.tld) to your AppCloud environment"
-      method_option :verbose, :aliases     => ["-V"], :desc => "Display more output"
-      method_option :environment, :aliases => ["-e"], :desc => "Environment in which to deploy this application", :type => :string
-      method_option :account, :aliases     => ["-c"], :desc => "Name of the account you want to deploy in"
-      method_option :override, :aliases    => ["-o"], :type => :boolean, :desc => "Override DNSimple records if they already exist"
+      method_option :verbose,     :aliases => ["-v"], :desc => "Be verbose"
+      method_option :environment, :aliases => ["-e"], :desc => "Environment containing the IP to which to resolve", :type => :string
+      method_option :account,     :aliases => ["-c"], :desc => "Name of the account where the environment is found"
+      method_option :force,       :aliases => ["-f"], :desc => "Override DNS records if they already exist", :type => :boolean
       def assign(domain_name, name = "")
-        say "Fetching AppCloud environment information..."; $stdout.flush
-
+        $stdout.sync
+        say "Fetching AppCloud environment information..."
         environment = fetch_environment(options[:environment], options[:account])
-        account_name, env_name = environment.account.name, environment.name
-        unless environment.instances.first
-          error "Environment #{account_name}/#{env_name} has no booted instances."
-        end
-        public_hostname = environment.instances.first.public_hostname
-        status          = environment.instances.first.status
 
-        # TODO - use DNS client to convert public_hostname into IP address
-        unless public_hostname =~ /ec2-(\d+)-(\d+)-(\d+)-(\d+)/
-          error "Cannot determine public IP from current hostname #{public_hostname}"
-        end
-        public_ip = "#{$1}.#{$2}.#{$3}.#{$4}"
-
-        say "Found AppCloud environment #{env_name} on account #{account_name} with IP #{public_ip}"
+        public_ip = fetch_public_ip(environment)
 
         say ""
-        say "Searching for #{domain_name} amongst your DNS providers..."; $stdout.flush
+        say "Searching for #{domain_name} amongst your DNS providers..."
 
         domain, provider_name = find_domain(domain_name)
         unless domain
           error "Please register domain #{domain_name} with your DNS provider"
         end
         say "Found #{domain_name} in #{provider_name} account"
-        say ""; $stdout.flush
+        say ""
 
-        assign_dns(domain, account_name, env_name, public_ip, name, options[:override])
-        assign_dns(domain, account_name, env_name, public_ip, "www", options[:override]) if name == ""
+        assign_dns(domain, environment.account.name, environment.name, public_ip, name, options[:force])
+        assign_dns(domain, environment.account.name, environment.name, public_ip, "www", options[:force]) if name == ""
 
         say "Complete!", :green
 
@@ -81,7 +68,7 @@ module EngineYard
       desc "version", "show version information"
       def version
         require 'engineyard-dns/version'
-        shell.say Engineyard::DNS::VERSION
+        shell.say EngineYard::DNS::VERSION
       end
 
       map "-v" => :version, "--version" => :version, "-h" => :help, "--help" => :help
@@ -98,25 +85,24 @@ module EngineYard
 
       def error(text)
         shell.say "ERROR: #{text}", :red
-        exit
+        exit(1)
       end
 
-      def watch_page_while(host, port, path)
-        waiting = true
-        while waiting
-          begin
-            Net::HTTP.start(host, port) do |http|
-              req = http.get(path)
-              waiting = yield req
-            end
-            sleep 1; print '.'; $stdout.flush
-          rescue SocketError => e
-            sleep 1; print 'x'; $stdout.flush
-          rescue Exception => e
-            puts e.message
-            sleep 1; print '.'; $stdout.flush
-          end
+      # terrible
+      def fetch_public_ip(environment)
+        unless environment.instances.first
+          error "Environment #{environment.account.name}/#{environment.name} has no booted instances."
         end
+        public_hostname = environment.instances.first.public_hostname
+        status          = environment.instances.first.status
+
+        # TODO - use DNS client to convert public_hostname into IP address
+        unless public_hostname =~ /ec2-(\d+)-(\d+)-(\d+)-(\d+)/
+          error "Cannot determine public IP from current hostname #{public_hostname}"
+        end
+        ip = "#{$1}.#{$2}.#{$3}.#{$4}"
+        say "Found AppCloud environment #{environment.name} on account #{environment.account.name} with IP #{ip}"
+        ip
       end
 
       # Discover which DNS provider (DNSimple, etc) is controlling +domain_name+ (a zone)
@@ -143,8 +129,11 @@ module EngineYard
             error "Cannot replace existing #{domain_name domain, name} DNS"
           end
         end
-        say "Assigning "; say "#{domain_name domain, name} ", :green; say "--> "; say "#{public_ip} ", :green; say "(#{account_name}/#{env_name})"
-        $stdout.flush
+        say "Assigning "
+        say "#{domain_name domain, name} ", :green
+        say "--> "
+        say "#{public_ip} ", :green
+        say "(#{account_name}/#{env_name})"
 
         record = domain.records.create(:ip => public_ip, :name => name, :type => "A", :ttl => "60")
         say "Created A record for #{domain_name domain, name}"

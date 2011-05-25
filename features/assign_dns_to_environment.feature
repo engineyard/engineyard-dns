@@ -30,7 +30,7 @@ Feature: Assign DNS to environment IP address via DNSimple
   
   Scenario: Resssign DNS A Record to an environment
     When I run local executable "ey-dns" with arguments "assign myapp.com --account main --environment giblets"
-    And I run local executable "ey-dns" with arguments "assign myapp.com --account main --environment giblets --override"
+    And I run local executable "ey-dns" with arguments "assign myapp.com --account main --environment giblets --force"
     Then I should see matching
       """
       Fetching AppCloud environment information...
