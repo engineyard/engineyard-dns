@@ -67,7 +67,7 @@ module EngineYard
       desc "version", "show version information"
       def version
         require 'engineyard-dns/version'
-        shell.say EngineYard::DNS::VERSION
+        say EngineYard::DNS::VERSION
       end
 
       map "-v" => :version, "--version" => :version, "-h" => :help, "--help" => :help
@@ -75,15 +75,16 @@ module EngineYard
       private
       def say(msg, color = nil)
         color ? shell.say(msg, color) : shell.say(msg)
+        $stdout.flush
       end
 
       def display(text)
-        shell.say text
+        say text
         exit
       end
 
       def error(text)
-        shell.say "ERROR: #{text}", :red
+        say "ERROR: #{text}", :red
         exit(1)
       end
 
