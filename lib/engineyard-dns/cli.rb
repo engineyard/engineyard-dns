@@ -18,7 +18,6 @@ module EngineYard
       end
 
       desc "assign DOMAIN [NAME]", "Assign DNS domain/tld (or name.tld) to your AppCloud environment"
-      method_option :verbose,     :aliases => ["-v"], :desc => "Be verbose"
       method_option :environment, :aliases => ["-e"], :desc => "Environment containing the IP to which to resolve", :type => :string
       method_option :account,     :aliases => ["-c"], :desc => "Name of the account where the environment is found"
       method_option :force,       :aliases => ["-f"], :desc => "Override DNS records if they already exist", :type => :boolean
