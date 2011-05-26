@@ -63,7 +63,7 @@ end
 
 Then /^file "(.*)" (is|is not) created/ do |file, is|
   in_project_folder do
-    File.exists?(file).should(is == 'is' ? be_true : be_false)
+    File.exists?(File.expand_path(file)).should(is == 'is' ? be_true : be_false)
   end
 end
 
