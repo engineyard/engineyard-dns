@@ -17,11 +17,11 @@ module EngineYard
         super
       end
 
-      desc "assign DOMAIN [NAME]", "Assign DNS domain/tld (or name.tld) to your AppCloud environment"
+      desc "assign DOMAIN [SUBDOMAIN]", "Assign DNS domain/tld (or name.tld) to your AppCloud environment"
       method_option :environment, :aliases => ["-e"], :desc => "Environment containing the IP to which to resolve", :type => :string
       method_option :account,     :aliases => ["-c"], :desc => "Name of the account where the environment is found"
       method_option :force,       :aliases => ["-f"], :desc => "Override DNS records if they already exist", :type => :boolean
-      def assign(domain_name, name = "")
+      def assign(domain_name, subdomain = "")
         $stdout.sync
         say "Fetching AppCloud environment information..."
         environment = fetch_environment(options[:environment], options[:account])
@@ -38,12 +38,10 @@ module EngineYard
         say "Found #{domain_name} in #{provider_name} account"
         say ""
 
-        assign_dns(domain, environment.account.name, environment.name, public_ip, name, options[:force])
-        assign_dns(domain, environment.account.name, environment.name, public_ip, "www", options[:force]) if name == ""
+        assign_dns(domain, environment.account.name, environment.name, public_ip, subdomain, options[:force])
+        assign_dns(domain, environment.account.name, environment.name, public_ip, "www", options[:force]) if subdomain == ""
 
         say "Complete!", :green
-
-        # ::DNSimple::Commands::ListRecords.new.execute([domain])
       end
 
       desc "domains", "List available domains/zones from your DNS providers"
@@ -114,23 +112,24 @@ module EngineYard
         [nil, nil]
       end
 
-      def assign_dns(domain, account_name, env_name, public_ip, name = "", override = false)
-        if record = domain.records.select {|r| r.name == name}.first
-          if override || ask_override_dns?(domain, name)
+      def assign_dns(domain, account_name, env_name, public_ip, subdomain = "", override = false)
+        if record = domain.records.select {|r| r.name == subdomain}.first
+          if override || ask_override_dns?(domain, subdomain)
             record.destroy
-            say "Deleted #{domain_name domain, name}"
+            say "Deleted #{domain_name domain, subdomain}"
           else
-            error "Cannot replace existing #{domain_name domain, name} DNS"
+            error "Cannot replace existing #{domain_name domain, subdomain} DNS"
           end
         end
         say "Assigning "
-        say "#{domain_name domain, name} ", :green
+        say "#{domain_name domain, subdomain} ", :green
         say "--> "
         say "#{public_ip} ", :green
         say "(#{account_name}/#{env_name})"
 
-        record = domain.records.create(:ip => public_ip, :name => name, :type => "A", :ttl => "60")
-        say "Created A record for #{domain_name domain, name}"
+        # TODO - "A" for IPv4 and "AAAA" for IPv6
+        record = domain.records.create(:ip => public_ip, :name => subdomain, :type => "A", :ttl => "60")
+        say "Created A record for #{domain_name domain, subdomain}"
       end
 
       def ask_override_dns?(domain, name)
