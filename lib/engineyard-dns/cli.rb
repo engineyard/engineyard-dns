@@ -89,6 +89,7 @@ module EngineYard
       end
 
       # Return the public IP assigned to an environment (which may or may not be a booted cluster of instances)
+      # Displays error and exits if no public IP assigned to the environment
       def fetch_public_ip(environment)
         unless environment.load_balancer_ip_address
           error "Environment #{environment.account.name}/#{environment.name} has no assigned public IP address."
