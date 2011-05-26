@@ -12,7 +12,7 @@ Feature: Assign DNS to environment IP address via DNSimple
     Then I should see exactly
       """
       Fetching AppCloud environment information...
-      Found AppCloud environment giblets on account main with IP 127.0.0.0
+      AppCloud environment main/giblets has IP 127.0.0.0
       
       Searching for myapp.com amongst your DNS providers...
       Found myapp.com in DNSimple account
@@ -34,7 +34,7 @@ Feature: Assign DNS to environment IP address via DNSimple
     Then I should see matching
       """
       Fetching AppCloud environment information...
-      Found AppCloud environment giblets on account main with IP 127.0.0.0
+      AppCloud environment main/giblets has IP 127.0.0.0
       
       Searching for myapp.com amongst your DNS providers...
       Found myapp.com in DNSimple account
@@ -57,7 +57,7 @@ Feature: Assign DNS to environment IP address via DNSimple
     Then I should see exactly
       """
       Fetching AppCloud environment information...
-      Found AppCloud environment giblets on account main with IP 127.0.0.0
+      AppCloud environment main/giblets has IP 127.0.0.0
       
       Searching for myapp.com amongst your DNS providers...
       Found myapp.com in DNSimple account
