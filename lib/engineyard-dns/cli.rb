@@ -90,19 +90,12 @@ module EngineYard
 
       # terrible
       def fetch_public_ip(environment)
-        unless environment.instances.first
-          error "Environment #{environment.account.name}/#{environment.name} has no booted instances."
+        unless environment.load_balancer_ip_address
+          error "Environment #{environment.account.name}/#{environment.name} has no assigned public IP address."
         end
-        public_hostname = environment.instances.first.public_hostname
-        status          = environment.instances.first.status
 
-        # TODO - use DNS client to convert public_hostname into IP address
-        unless public_hostname =~ /ec2-(\d+)-(\d+)-(\d+)-(\d+)/
-          error "Cannot determine public IP from current hostname #{public_hostname}"
-        end
-        ip = "#{$1}.#{$2}.#{$3}.#{$4}"
-        say "Found AppCloud environment #{environment.name} on account #{environment.account.name} with IP #{ip}"
-        ip
+        say "Found AppCloud environment #{environment.name} on account #{environment.account.name} with IP #{environment.load_balancer_ip_address}"
+        environment.load_balancer_ip_address
       end
 
       # Discover which DNS provider (DNSimple, etc) is controlling +domain_name+ (a zone)
