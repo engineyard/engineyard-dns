@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency("engineyard", "1.3.19")
+  s.add_dependency("engineyard", "1.3.20.pre")
   s.add_dependency("fog", "~> 0.8.1")
 
   s.add_development_dependency("rake", ["~> 0.9.0"])
