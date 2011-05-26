@@ -3,3 +3,7 @@ rvm:
   - 1.9.2
   - rbx
   - ree
+notifications:
+  recipients:
+    - drnicwilliams@gmail.com
+    - me@martinemde.com
