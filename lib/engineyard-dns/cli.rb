@@ -5,6 +5,7 @@ require "engineyard/cli/ui"
 require "engineyard/error"
 require "fog"
 require "fog/bin"
+require "ipaddress"
 
 module EngineYard
   module DNS
@@ -127,9 +128,20 @@ module EngineYard
         say "#{public_ip} ", :green
         say "(#{account_name}/#{env_name})"
 
-        # TODO - "A" for IPv4 and "AAAA" for IPv6
-        record = domain.records.create(:ip => public_ip, :name => subdomain, :type => "A", :ttl => "60")
+        record = domain.records.create(:ip => public_ip, :name => subdomain, :type => record_type(public_ip), :ttl => "60")
         say "Created A record for #{domain_name domain, subdomain}"
+      end
+
+      # "A" for IPv4 and "AAAA" for IPv6; else display error and exit
+      def record_type(public_ip)
+        address = IPAddress(public_ip)
+        if address.ipv4?
+          "A"
+        elsif address.ipv6?
+          "AAAA"
+        else
+          error "Cannot recognize IP #{public_ip} as either IPv4 or IPv6 format"
+        end
       end
 
       def ask_override_dns?(domain, name)
