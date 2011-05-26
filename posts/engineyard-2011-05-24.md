@@ -8,7 +8,7 @@ It's really quite easy to use:
 
 1. Register your application's domain with a DNS provider (see supported list below), such as DNSimple.
 2. Transfer your domain to the DNS provider or change to use their name servers, such as ns1.dnsimple.com (ns2, ns3, etc) for DNSimple.
-3. Install and run the command line application:
+3. Install and run the command line application within your Rails/Ruby app:
 
     $ gem install engineyard-dns
     $ cd path/to/my/app
@@ -23,11 +23,9 @@ If there is any confusion about which AppCloud environment is hosting your appli
     $ ey-dns apply myapp.com --environment myapp_production
     $ ey-dns apply myapp.com staging --environment myapp_staging
 
-## Available domains/zones
+## Supported DNS providers
 
 This tool will automatically determine which DNS provider is managing the domain/zone that you are wiring up to your AppCloud environment.
-
-## Supported DNS providers
 
 The `ey-dns` uses [fog](https://github.com/geemus/fog) to access DNS providers. The current list of available DNS providers for fog is: AWS, Bluebox, DNSimple, Linode, Slicehost, Zerigo. The next section shows how to setup fog credentials.
 
