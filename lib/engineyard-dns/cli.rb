@@ -24,6 +24,8 @@ module EngineYard
       method_option :force,       :aliases => ["-f"], :desc => "Override DNS records if they already exist", :type => :boolean
       def assign(domain_name, subdomain = "")
         $stdout.sync
+        validate_fog_credentials
+        
         say "Fetching AppCloud environment information..."
         environment = fetch_environment(options[:environment], options[:account])
 
@@ -47,6 +49,7 @@ module EngineYard
 
       desc "domains", "List available domains/zones from your DNS providers"
       def domains
+        validate_fog_credentials
         dns_provider_names.each do |provider_name|
           dns_provider = ::Fog::DNS.new({:provider => provider_name})
           domains      = dns_provider.zones
@@ -176,6 +179,31 @@ module EngineYard
         "AppCloud environment #{environment.account.name}/#{environment.name}"
       end
 
+      def validate_fog_credentials
+        File.open(Fog.credentials_path, "w") do |file|
+          file << <<-CREDENTIALS.gsub(/^\s{10}/, '')
+          :default:
+            :aws_access_key_id:     ACCESSKEY
+            :aws_secret_access_key: SECRETKEY
+            :bluebox_customer_id:   ID
+            :bluebox_api_key:       APITOKEN
+            :dnsimple_email:        EMAIL
+            :dnsimple_password:     PASSWORD
+            :linode_api_key:        APITOKEN
+            :slicehost_password:    APITOKEN
+            :zerigo_email:          EMAIL
+            :zerigo_token:          APITOKEN
+          CREDENTIALS
+        end
+        FileUtils.chmod(0600, Fog.credentials_path)
+        
+        pretty_path = Fog.credentials_path
+        pretty_path = "~/.fog" if Fog.credentials_path == File.expand_path("~/.fog")
+        error <<-HELP.gsub(/^\s{8}/, '')
+        Missing credentials for DNS providers.
+        An example #{pretty_path} credentials file has been created for you.
+        HELP
+      end
     end
   end
 end
