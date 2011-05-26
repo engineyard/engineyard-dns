@@ -129,7 +129,7 @@ module EngineYard
         say "(#{account_name}/#{env_name})"
 
         record = domain.records.create(:ip => public_ip, :name => subdomain, :type => record_type(public_ip), :ttl => "60")
-        say "Created A record for #{domain_name domain, subdomain}"
+        say "Created #{record.type} record for #{domain_name domain, subdomain}"
       end
 
       # "A" for IPv4 and "AAAA" for IPv6; else display error and exit
