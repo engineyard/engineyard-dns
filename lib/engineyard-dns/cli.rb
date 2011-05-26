@@ -92,10 +92,10 @@ module EngineYard
       # Displays error and exits if no public IP assigned to the environment
       def fetch_public_ip(environment)
         unless environment.load_balancer_ip_address
-          error "Environment #{environment.account.name}/#{environment.name} has no assigned public IP address."
+          error "#{environment_display environment} has no assigned public IP address."
         end
 
-        say "Found AppCloud environment #{environment.name} on account #{environment.account.name} with IP #{environment.load_balancer_ip_address}"
+        say "#{environment_display environment} has IP #{environment.load_balancer_ip_address}"
         environment.load_balancer_ip_address
       end
 
@@ -159,6 +159,10 @@ module EngineYard
       # TODO how do I get the base list from fog?
       def fog_dns_provider_names
         ['AWS', 'Bluebox', 'DNSimple', 'Linode', 'Slicehost', 'Zerigo'] & Fog.available_providers
+      end
+      
+      def environment_display(environment)
+        "AppCloud environment #{environment.account.name}/#{environment.name}"
       end
 
     end
