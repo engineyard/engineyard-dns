@@ -180,6 +180,8 @@ module EngineYard
       end
 
       def validate_fog_credentials
+        return if File.exist?(Fog.credentials_path)
+
         File.open(Fog.credentials_path, "w") do |file|
           file << <<-CREDENTIALS.gsub(/^\s{10}/, '')
           :default:
