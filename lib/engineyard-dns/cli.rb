@@ -183,27 +183,27 @@ module EngineYard
         return if File.exist?(Fog.credentials_path)
 
         File.open(Fog.credentials_path, "w") do |file|
-          file << <<-CREDENTIALS.gsub(/^\s{10}/, '')
-          :default:
-            :aws_access_key_id:     ACCESSKEY
-            :aws_secret_access_key: SECRETKEY
-            :bluebox_customer_id:   ID
-            :bluebox_api_key:       APITOKEN
-            :dnsimple_email:        EMAIL
-            :dnsimple_password:     PASSWORD
-            :linode_api_key:        APITOKEN
-            :slicehost_password:    APITOKEN
-            :zerigo_email:          EMAIL
-            :zerigo_token:          APITOKEN
+          file << <<-CREDENTIALS
+:default:
+  :aws_access_key_id:     ACCESSKEY
+  :aws_secret_access_key: SECRETKEY
+  :bluebox_customer_id:   ID
+  :bluebox_api_key:       APITOKEN
+  :dnsimple_email:        EMAIL
+  :dnsimple_password:     PASSWORD
+  :linode_api_key:        APITOKEN
+  :slicehost_password:    APITOKEN
+  :zerigo_email:          EMAIL
+  :zerigo_token:          APITOKEN
           CREDENTIALS
         end
         FileUtils.chmod(0600, Fog.credentials_path)
         
         pretty_path = Fog.credentials_path
         pretty_path = "~/.fog" if Fog.credentials_path == File.expand_path("~/.fog")
-        error <<-HELP.gsub(/^\s{8}/, '')
-        Missing credentials for DNS providers.
-        An example #{pretty_path} credentials file has been created for you.
+        error <<-HELP
+Missing credentials for DNS providers.
+An example #{pretty_path} credentials file has been created for you.
         HELP
       end
     end
