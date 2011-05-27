@@ -164,7 +164,7 @@ module EngineYard
       # Returns the list of DNS providers that the current user has fog credentials
       # TODO how do I get the base list from fog?
       def fog_dns_provider_names
-        ['AWS', 'Bluebox', 'DNSimple', 'Linode', 'Slicehost', 'Zerigo'] & Fog.providers
+        ['AWS', 'Bluebox', 'DNSimple', 'Linode', 'Slicehost', 'Zerigo'] & Fog.available_providers
       end
 
     end
