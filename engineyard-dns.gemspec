@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency("engineyard", "1.3.20")
-  s.add_dependency("fog", "~> 0.8")
+  s.add_dependency("fog", "~> 0.8.2")
   s.add_dependency("ipaddress", "~> 0.8")
 
   s.add_development_dependency("rake", ["~> 0.9.0"])
