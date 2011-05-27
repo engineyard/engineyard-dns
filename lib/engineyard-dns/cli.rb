@@ -3,6 +3,7 @@ require "engineyard/thor"
 require "engineyard/cli"
 require "engineyard/cli/ui"
 require "engineyard/error"
+require "engineyard-dns/credentials"
 require "fog"
 require "fog/bin"
 require "ipaddress"
@@ -25,7 +26,7 @@ module EngineYard
       def assign(domain_name, subdomain = "")
         $stdout.sync
         validate_fog_credentials
-        
+
         say "Fetching AppCloud environment information..."
         environment = fetch_environment(options[:environment], options[:account])
 
@@ -174,37 +175,22 @@ module EngineYard
       def fog_dns_provider_names
         ['AWS', 'Bluebox', 'DNSimple', 'Linode', 'Slicehost', 'Zerigo'] & Fog.available_providers
       end
-      
+
       def environment_display(environment)
         "AppCloud environment #{environment.account.name}/#{environment.name}"
       end
 
-      def validate_fog_credentials
-        return if File.exist?(Fog.credentials_path)
+      def credentials
+        EngineYard::DNS::Credentials.new(Fog.credentials_path)
+      end
 
-        File.open(Fog.credentials_path, "w") do |file|
-          file << <<-CREDENTIALS
-:default:
-  :aws_access_key_id:     ACCESSKEY
-  :aws_secret_access_key: SECRETKEY
-  :bluebox_customer_id:   ID
-  :bluebox_api_key:       APITOKEN
-  :dnsimple_email:        EMAIL
-  :dnsimple_password:     PASSWORD
-  :linode_api_key:        APITOKEN
-  :slicehost_password:    APITOKEN
-  :zerigo_email:          EMAIL
-  :zerigo_token:          APITOKEN
-          CREDENTIALS
-        end
-        FileUtils.chmod(0600, Fog.credentials_path)
-        
-        pretty_path = Fog.credentials_path
-        pretty_path = "~/.fog" if Fog.credentials_path == File.expand_path("~/.fog")
-        error <<-HELP
+      def validate_fog_credentials
+        credentials.write_if_missing do |path|
+          error <<-HELP
 Missing credentials for DNS providers.
-An example #{pretty_path} credentials file has been created for you.
-        HELP
+An example #{path} credentials file has been created for you.
+          HELP
+        end
       end
     end
   end
