@@ -1,5 +1,11 @@
 # ChangeLog
 
+## v1.1.0 - 2011-11-27
+
+* `ey-dns subdomain.domain.com` now supported using domo-rb.
+* Upgraded version of engineyard gem.
+* Upgraded version of fog gem.
+
 ## v0.5.0 - 2011/5/24
 
 * "ey-dns domains" lists the registered domains for each DNS provider (with a count of records for each)
