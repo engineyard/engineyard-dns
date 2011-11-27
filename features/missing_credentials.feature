@@ -8,10 +8,6 @@ Feature: Missing credentials
       """
       ERROR: Missing credentials for DNS providers.
       An example ~/.fog credentials file has been created for you.
-      
+
       """
     And file "~/.fog" is created
-  
-  
-  
-  

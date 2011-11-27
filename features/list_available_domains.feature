@@ -11,7 +11,5 @@ Feature: List available domains
       DNSimple:
         myapp.com - 0 records
         myotherapp.com - 0 records
-      
+
       """
-    
-  
