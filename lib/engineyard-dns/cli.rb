@@ -7,6 +7,7 @@ require "engineyard-dns/credentials"
 require "fog"
 require "fog/bin"
 require "ipaddress"
+require "domo"
 
 module EngineYard
   module DNS
@@ -19,27 +20,35 @@ module EngineYard
         super
       end
 
-      desc "assign DOMAIN [SUBDOMAIN]", "Assign DNS domain/tld (or name.tld) to your AppCloud environment"
+      desc "assign [SUBDOMAIN.]DOMAIN.TLD", "Assign DNS domain/tld (or name.tld) to your AppCloud environment"
       method_option :environment, :aliases => ["-e"], :desc => "Environment containing the IP to which to resolve", :type => :string
       method_option :account,     :aliases => ["-c"], :desc => "Name of the account where the environment is found"
       method_option :force,       :aliases => ["-f"], :desc => "Override DNS records if they already exist", :type => :boolean
-      def assign(domain_name, subdomain = "")
+      def assign(full_domain, deprecated_sub_domain = nil)
         $stdout.sync
         validate_fog_credentials
+
+        if deprecated_sub_domain
+          full_domain = combine_domain_name(full_domain, deprecated_sub_domain)
+          say "Subdomain as second argument is deprecated. Please use:"
+          say "% ey assign #{full_domain}"
+        end
 
         say "Fetching AppCloud environment information..."
         environment = fetch_environment(options[:environment], options[:account])
 
         public_ip = fetch_public_ip(environment)
 
+        subdomain, domain_name = split_subdomain(full_domain)
+
         say ""
-        say "Searching for #{domain_name} amongst your DNS providers..."
+        say "Searching for #{domain_name} in your DNS providers..."
 
         domain, provider_name = find_domain(domain_name)
         unless domain
-          error "Please register domain #{domain_name} with your DNS provider"
+          error "Please register domain #{domain_name} with your DNS provider."
         end
-        say "Found #{domain_name} in #{provider_name} account"
+        say "Found #{domain.domain} in #{provider_name} account."
         say ""
 
         assign_dns(domain, environment.account.name, environment.name, public_ip, subdomain, options[:force])
@@ -110,30 +119,38 @@ module EngineYard
       def find_domain(domain_name)
         dns_provider_names.each do |provider|
           dns_provider = ::Fog::DNS.new({:provider => provider})
-          if domain = dns_provider.zones.select {|z| z.domain == domain_name}.first
+          if domain = dns_provider.zones.detect {|z| z.domain == domain_name}
             return [domain, provider]
           end
         end
         [nil, nil]
       end
 
+      def split_subdomain(full_domain)
+        domain = Domo.canonize(full_domain)
+        subdomain = full_domain.sub(/\.?#{Regexp.escape(domain)}/,'')
+        [subdomain, domain]
+      end
+
       def assign_dns(domain, account_name, env_name, public_ip, subdomain = "", override = false)
+        combined_domain_name = combine_domain_name(domain, subdomain)
+
         if record = domain.records.select {|r| r.name == subdomain}.first
           if override || ask_override_dns?(domain, subdomain)
             record.destroy
-            say "Deleted #{domain_name domain, subdomain}"
+            say "#{combined_domain_name} deleted."
           else
-            error "Cannot replace existing #{domain_name domain, subdomain} DNS"
+            error "Cannot replace existing #{combined_domain_name} DNS."
           end
         end
         say "Assigning "
-        say "#{domain_name domain, subdomain} ", :green
+        say "#{combined_domain_name} ", :green
         say "--> "
         say "#{public_ip} ", :green
         say "(#{account_name}/#{env_name})"
 
-        record = domain.records.create(:ip => public_ip, :name => subdomain, :type => record_type(public_ip), :ttl => "60")
-        say "Created #{record.type} record for #{domain_name domain, subdomain}"
+        record = domain.records.create(:value => public_ip, :name => subdomain, :type => record_type(public_ip), :ttl => "60")
+        say "#{record.type} record for #{combined_domain_name} created."
       end
 
       # "A" for IPv4 and "AAAA" for IPv6; else display error and exit
@@ -144,7 +161,7 @@ module EngineYard
         elsif address.ipv6?
           "AAAA"
         else
-          error "Cannot recognize IP #{public_ip} as either IPv4 or IPv6 format"
+          error "Cannot recognize IP #{public_ip} as either IPv4 or IPv6 format."
         end
       end
 
@@ -155,12 +172,9 @@ module EngineYard
 
       # "myapp.com", "name" => "name.myapp.com"
       # "myapp.com", ""     => "myapp.com"
-      def domain_name(domain, name = nil)
-        if name && name.length > 0
-          "#{name}.#{domain.domain}"
-        else
-          domain.domain
-        end
+      def combine_domain_name(domain, subdomain)
+        domain_name = domain.respond_to?(:domain) ? domain.domain : domain.to_s
+        subdomain && !subdomain.empty? ? "#{subdomain}.#{domain_name}" : domain_name
       end
 
       # Returns the list of DNS providers that the current user has access to

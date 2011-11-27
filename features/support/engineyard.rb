@@ -7,7 +7,7 @@ end
 
 support = Dir[File.join(EY_ROOT,'/spec/support/*.rb')]
 support.each{|helper| require helper }
-World(Spec::Helpers)
+World(SpecHelpers)
 
 require "fakeweb"
 

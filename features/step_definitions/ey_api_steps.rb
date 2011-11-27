@@ -1,7 +1,6 @@
 Given /^I have setup my engineyard email\/password for API access$/ do
   ENV['EYRC'] = File.join(@home_path, ".eyrc")
-  token = { ENV['CLOUD_URL'] => {
-      "api_token" => "f81a1706ddaeb148cfb6235ddecfc1cf"} }
+  token = { "api_token" => "f81a1706ddaeb148cfb6235ddecfc1cf"}
   File.open(ENV['EYRC'], "w"){|f| YAML.dump(token, f) }
 end
 

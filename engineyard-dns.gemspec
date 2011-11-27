@@ -1,16 +1,15 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
-require "engineyard-dns/version"
+require File.join(File.dirname(__FILE__), 'lib', 'engineyard-dns', 'version')
 
 Gem::Specification.new do |s|
   s.name        = "engineyard-dns"
   s.version     = EngineYard::DNS::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Dr Nic Williams"]
-  s.email       = ["drnicwilliams@gmail.com"]
+  s.authors     = ["Dr Nic Williams", "Martin Emde"]
+  s.email       = ["drnicwilliams@gmail.com", "memde@engineyard.com"]
   s.homepage    = "https://github.com/engineyard/engineyard-dns#readme"
-  s.summary     = %q{Configure your Engine Yard AppCloud environment and your DNSimple domain.}
-  s.description = %q{Easily configure your DNS with Engine Yard AppCloud via DNSimple.}
+  s.summary     = %q{Configure DNS for your Engine Yard AppCloud environment.}
+  s.description = %q{Easily configure your DNS with Engine Yard AppCloud via Fog.}
 
   s.rubyforge_project = "engineyard-dns"
 
@@ -19,9 +18,10 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency("engineyard", "1.3.20")
-  s.add_dependency("fog", "~> 0.8.2")
+  s.add_dependency("engineyard", "1.4.10")
+  s.add_dependency("fog", "~> 1.0")
   s.add_dependency("ipaddress", "~> 0.8")
+  s.add_dependency("domo-rb")
 
   s.add_development_dependency("rake", ["~> 0.9.0"])
   s.add_development_dependency("cucumber", ["~> 0.10"])

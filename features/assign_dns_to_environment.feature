@@ -14,13 +14,13 @@ Feature: Assign DNS to environment IP address via DNSimple
       Fetching AppCloud environment information...
       AppCloud environment main/giblets has IP 127.0.0.0
 
-      Searching for myapp.com amongst your DNS providers...
-      Found myapp.com in DNSimple account
+      Searching for myapp.com in your DNS providers...
+      Found myapp.com in DNSimple account.
 
       Assigning myapp.com --> 127.0.0.0 (main/giblets)
-      Created A record for myapp.com
+      A record for myapp.com created.
       Assigning www.myapp.com --> 127.0.0.0 (main/giblets)
-      Created A record for www.myapp.com
+      A record for www.myapp.com created.
       Complete!
 
       """
@@ -36,15 +36,15 @@ Feature: Assign DNS to environment IP address via DNSimple
       Fetching AppCloud environment information...
       AppCloud environment main/giblets has IP 127.0.0.0
 
-      Searching for myapp.com amongst your DNS providers...
-      Found myapp.com in DNSimple account
+      Searching for myapp.com in your DNS providers...
+      Found myapp.com in DNSimple account.
 
-      Deleted myapp.com
+      myapp.com deleted.
       Assigning myapp.com --> 127.0.0.0 (main/giblets)
-      Created A record for myapp.com
-      Deleted www.myapp.com
+      A record for myapp.com created.
+      www.myapp.com deleted.
       Assigning www.myapp.com --> 127.0.0.0 (main/giblets)
-      Created A record for www.myapp.com
+      A record for www.myapp.com created.
       Complete!
 
       """
@@ -53,17 +53,17 @@ Feature: Assign DNS to environment IP address via DNSimple
       #   www.myapp.com (A)-> 127.0.0.0 (ttl:60, id:\d+)
 
   Scenario: Assign subdomain A Record to an environment
-    When I run local executable "ey-dns" with arguments "assign myapp.com staging --account main --environment giblets"
+    When I run local executable "ey-dns" with arguments "assign staging.myapp.com --account main --environment giblets"
     Then I should see exactly
       """
       Fetching AppCloud environment information...
       AppCloud environment main/giblets has IP 127.0.0.0
 
-      Searching for myapp.com amongst your DNS providers...
-      Found myapp.com in DNSimple account
+      Searching for myapp.com in your DNS providers...
+      Found myapp.com in DNSimple account.
 
       Assigning staging.myapp.com --> 127.0.0.0 (main/giblets)
-      Created A record for staging.myapp.com
+      A record for staging.myapp.com created.
       Complete!
 
       """
