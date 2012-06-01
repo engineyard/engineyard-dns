@@ -1,5 +1,5 @@
 Feature: List available domains
-  I want to see the available domains I can associate with my AppCloud apps
+  I want to see the available domains I can associate with my Engine Yard Cloud apps
 
   Scenario: Show domains without any records:
     Given I have setup my fog credentials for "DNSimple"

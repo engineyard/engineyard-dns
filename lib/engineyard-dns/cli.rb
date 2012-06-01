@@ -20,7 +20,7 @@ module EngineYard
         super
       end
 
-      desc "assign [SUBDOMAIN.]DOMAIN.TLD", "Assign DNS domain/tld (or name.tld) to your AppCloud environment"
+      desc "assign [SUBDOMAIN.]DOMAIN.TLD", "Assign DNS domain/tld (or name.tld) to your Engine Yard Cloud environment"
       method_option :environment, :aliases => ["-e"], :desc => "Environment containing the IP to which to resolve", :type => :string
       method_option :account,     :aliases => ["-c"], :desc => "Name of the account where the environment is found"
       method_option :force,       :aliases => ["-f"], :desc => "Override DNS records if they already exist", :type => :boolean
@@ -34,7 +34,7 @@ module EngineYard
           say "% ey assign #{full_domain}"
         end
 
-        say "Fetching AppCloud environment information..."
+        say "Fetching Engine Yard Cloud environment information..."
         environment = fetch_environment(options[:environment], options[:account])
 
         public_ip = fetch_public_ip(environment)
@@ -191,7 +191,7 @@ module EngineYard
       end
 
       def environment_display(environment)
-        "AppCloud environment #{environment.account.name}/#{environment.name}"
+        "Engine Yard Cloud environment #{environment.account.name}/#{environment.name}"
       end
 
       def credentials

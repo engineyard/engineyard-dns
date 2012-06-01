@@ -1,9 +1,9 @@
 Feature: Assign DNS to environment IP address via DNSimple
-  I want to assign DNS record to an AppCloud environment IP address
+  I want to assign DNS record to an Engine Yard Cloud environment IP address
 
   Background:
     Given I have setup my engineyard email/password for API access
-    And I have "two apps" in AppCloud
+    And I have "two apps" in Engine Yard Cloud
     And I have setup my fog credentials for "DNSimple"
     And I have DNS domain "myapp.com" with provider "DNSimple"
 
@@ -11,8 +11,8 @@ Feature: Assign DNS to environment IP address via DNSimple
     When I run local executable "ey-dns" with arguments "assign myapp.com --account main --environment giblets"
     Then I should see exactly
       """
-      Fetching AppCloud environment information...
-      AppCloud environment main/giblets has IP 127.0.0.0
+      Fetching Engine Yard Cloud environment information...
+      Engine Yard Cloud environment main/giblets has IP 127.0.0.0
 
       Searching for myapp.com in your DNS providers...
       Found myapp.com in DNSimple account.
@@ -33,8 +33,8 @@ Feature: Assign DNS to environment IP address via DNSimple
     And I run local executable "ey-dns" with arguments "assign myapp.com --account main --environment giblets --force"
     Then I should see matching
       """
-      Fetching AppCloud environment information...
-      AppCloud environment main/giblets has IP 127.0.0.0
+      Fetching Engine Yard Cloud environment information...
+      Engine Yard Cloud environment main/giblets has IP 127.0.0.0
 
       Searching for myapp.com in your DNS providers...
       Found myapp.com in DNSimple account.
@@ -56,8 +56,8 @@ Feature: Assign DNS to environment IP address via DNSimple
     When I run local executable "ey-dns" with arguments "assign staging.myapp.com --account main --environment giblets"
     Then I should see exactly
       """
-      Fetching AppCloud environment information...
-      AppCloud environment main/giblets has IP 127.0.0.0
+      Fetching Engine Yard Cloud environment information...
+      Engine Yard Cloud environment main/giblets has IP 127.0.0.0
 
       Searching for myapp.com in your DNS providers...
       Found myapp.com in DNSimple account.

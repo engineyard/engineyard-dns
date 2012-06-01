@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Dr Nic Williams", "Martin Emde"]
   s.email       = ["drnicwilliams@gmail.com", "memde@engineyard.com"]
   s.homepage    = "https://github.com/engineyard/engineyard-dns#readme"
-  s.summary     = %q{Configure DNS for your Engine Yard AppCloud environment.}
-  s.description = %q{Easily configure your DNS with Engine Yard AppCloud via Fog.}
+  s.summary     = %q{Configure DNS for your Engine Yard Cloud environment.}
+  s.description = %q{Easily configure your DNS with Engine Yard Cloud via Fog.}
 
   s.rubyforge_project = "engineyard-dns"
 

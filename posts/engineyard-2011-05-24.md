@@ -1,8 +1,8 @@
-# Simple DNS for AppCloud with DNSimple
+# Simple DNS for Engine Yard Cloud with DNSimple
 
-For me, one of the things I liked to do with a new AppCloud application is to attached a pretty domain. The default AWS EC2 URL doesn't glorify my fine efforts.
+For me, one of the things I liked to do with a new Engine Yard Cloud application is to attached a pretty domain. The default AWS EC2 URL doesn't glorify my fine efforts.
 
-To make setting up DNS easier with AppCloud, we've released the `ey-dns` command line application as an open source project ([readme](https://github.com/engineyard/engineyard-dns#readme)).
+To make setting up DNS easier with Engine Yard Cloud, we've released the `ey-dns` command line application as an open source project ([readme](https://github.com/engineyard/engineyard-dns#readme)).
 
 It's really quite easy to use:
 
@@ -18,14 +18,14 @@ It's really quite easy to use:
 
 If you have previously assigned the domain records to another host, it will prompt you to change them. 
 
-If there is any confusion about which AppCloud environment is hosting your application, it will show you your options and then you can use the `--environment` and `--account` options to be more specific:
+If there is any confusion about which Engine Yard Cloud environment is hosting your application, it will show you your options and then you can use the `--environment` and `--account` options to be more specific:
 
     $ ey-dns apply myapp.com --environment myapp_production
     $ ey-dns apply myapp.com staging --environment myapp_staging
 
 ## Supported DNS providers
 
-This tool will automatically determine which DNS provider is managing the domain/zone that you are wiring up to your AppCloud environment.
+This tool will automatically determine which DNS provider is managing the domain/zone that you are wiring up to your Engine Yard Cloud environment.
 
 The `ey-dns` uses [fog](https://github.com/geemus/fog) to access DNS providers. The current list of available DNS providers for fog is: AWS, Bluebox, DNSimple, Linode, Slicehost, Zerigo. The next section shows how to setup fog credentials.
 
@@ -74,6 +74,6 @@ You can test your DNS credentials with the `ey-dns domains` command:
 
 ## Summary
 
-Hopefully this tool makes it much easier to setup or change DNS for your AppCloud environments. Let us know in the comments or in the project's [Issues](https://github.com/engineyard/engineyard-dns/issues) if you love it, find bugs or have feature requests.
+Hopefully this tool makes it much easier to setup or change DNS for your Engine Yard Cloud environments. Let us know in the comments or in the project's [Issues](https://github.com/engineyard/engineyard-dns/issues) if you love it, find bugs or have feature requests.
 
 The source and instructions for the project is [available on GitHub](https://github.com/engineyard/engineyard-dns#readme).

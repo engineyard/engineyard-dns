@@ -1,7 +1,7 @@
-# Simple DNS for Engine Yard AppCloud environments
+# Simple DNS for Engine Yard Cloud environments
 
 Currently creates A records for a domain (.myapp.com and www.myapp.com) to
-point to the public IP of an AppCloud environment.
+point to the public IP of an Engine Yard Cloud environment.
 
 You can use any DNS provider supported by fog, including AWS Route 53, Blue Box, DNSimple, Linode, Slicehost and Zerigo.
 
@@ -22,13 +22,13 @@ Basic usage is very simple. Assuming you have registered `myapp.com`
 with one of your DNS providers, the following will automatically work:
 
     $ ey-dns assign myapp.com
-    Found AppCloud environment giblets on account main with IP 1.2.3.4
+    Found Engine Yard Cloud environment giblets on account main with IP 1.2.3.4
     Found myapp.com in DNSimple account
 
     Assigning myapp.com --> 1.2.3.4 (drnic/myapp_production)
     Assigning www.myapp.com --> 1.2.3.4 (drnic/myapp_production)
 
-If an AppCloud environment cannot be automatically detected, explicitly pass -e or -a flags
+If an Engine Yard Cloud environment cannot be automatically detected, explicitly pass -e or -a flags
 like the `ey` CLI itself:
 
     $ ey-dns assign myapp.com -e myapp_production
@@ -40,7 +40,7 @@ You can force the override with the `--override` or `-o` flag.
 
     $ gem install engineyard-dns
 
-To setup credentials for AppCloud, run the following command for the first time and
+To setup credentials for Engine Yard Cloud, run the following command for the first time and
 you will be prompted for credentials:
 
     $ ey environments --all
